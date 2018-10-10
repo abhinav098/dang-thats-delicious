@@ -1,8 +1,4 @@
 extends layout
 
 block content
-  div.ohyeah
-    p#para Hello my dog is a #{dog}
-    span#span and its name is #{name}
-    p
-      img.dog(src="dog.jpg", alt=`${name}`)
+  h2 Sale ends in #{h.moment().endOf('day').fromNow()}
