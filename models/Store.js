@@ -12,7 +12,25 @@ const storeSchema = new mongoose.Schema({
   description: {
     type: String, trim: true
   },
-  tags: []
+  tags: [String]
+  // created: {
+  //   type: Date,
+  //   default: Date.now
+  // },
+  // location: {
+  //   type:{
+  //     type: String,
+  //     default: 'Point'
+  //   },
+  //   coordinates: [{
+  //     type: Number,
+  //     required: 'You Must supply coordinates!!'}
+  //   ],
+  //   address: {
+  //     type: String,
+  //     required: 'AddressMust be supplied!!'
+  //   }
+  // }
 });
 
 storeSchema.pre('save', function(next){
@@ -22,4 +40,5 @@ storeSchema.pre('save', function(next){
   this.slug = slug(this.name);
   next();
 })
+
 module.exports = mongoose.model('Store', storeSchema)
