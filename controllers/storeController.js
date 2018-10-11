@@ -17,7 +17,6 @@ exports.createStore = async (req, res) => {
 
 exports.getStores = async (req, res) => {
   const stores = await Store.find(); // query all the stores and pass it to render
-  console.log(stores);
   res.render('stores', {title: 'Stores', stores});
 };
 
@@ -29,6 +28,7 @@ exports.editStore = async (req, res) => {
 
 
 exports.updateStore = async (req, res) => {
+  req.body.location.type = 'Point';
   const store = await Store.findOneAndUpdate(
     {
       _id: req.params.id},
