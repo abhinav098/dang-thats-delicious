@@ -1,16 +1,24 @@
 const express = require('express');
 const router = express.Router();
+const storeController = require('../controllers/storeController');
 
-// Do work here
-router.get('/', (req, res) => {
-  // res.send('Hey! It works!');
-  // res.send(req.query);
-  res.render('hello', {name:req.query.name, dog:"lab", title: "Dango"});
-});
+//catch error on global error handler
+const { catchErrors } = require('../handlers/errorHandlers');
 
-router.get('/reverse/:name', (req, res) => {
-  const reverse = [...req.params.name].reverse().join('');
-  res.send(reverse);
-});
+router.get('/', catchErrors(storeController.getStores));
+router.get('/stores', catchErrors(storeController.getStores));
+router.get('/stores/:id/edit', catchErrors(storeController.editStore));
+
+router.get('/add', storeController.addStore);
+router.post('/add',
+  storeController.upload,
+  catchErrors(storeController.resize),
+  catchErrors(storeController.createStore)
+);
+router.post('/add/:id',
+  storeController.upload,
+  catchErrors(storeController.resize),
+  catchErrors(storeController.updateStore)
+);
 
 module.exports = router;
