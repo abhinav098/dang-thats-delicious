@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const storeController = require('../controllers/storeController');
+const userController = require('../controllers/userController');
+const authController = require('../controllers/authController');
 
 //catch error on global error handler
 const { catchErrors } = require('../handlers/errorHandlers');
@@ -24,5 +26,9 @@ router.post('/add/:id',
 
 router.get('/tags', catchErrors(storeController.getStoreByTag));
 router.get('/tags/:tag', catchErrors(storeController.getStoreByTag));
+
+router.get('/login', userController.login);
+router.get('/register', userController.signup);
+router.post('/register', userController.validateRegister, userController.register, authController.login);
 
 module.exports = router;

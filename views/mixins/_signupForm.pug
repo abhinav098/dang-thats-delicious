@@ -1,0 +1,12 @@
+mixin signupForm
+  form.form(action=`/register` method="POST")
+    h2 Register
+    label(for="name") Name
+    input(name="name" type= "text" placeholder='Name')
+    label(for="email") Email
+    input(name="email" type= "text" placeholder='Email')
+    label(for="password") Password
+    input(name="password" type= "password" placeholder='Password')
+    label(for="password-confirm") Confirm Password
+    input(name="password-confirm" type= "password" placeholder='Confirm Password')
+    input.button(type="submit" value="Register" class="button")
