@@ -1,0 +1,17 @@
+extends layout
+
+include mixins/_storeCard
+
+block content
+  .inner
+    h2 #{tag || 'Tags'}
+    ul.tags
+      each tagg in tags
+        li.tag
+          a(href=`/tags/${tagg._id}` class=(tagg._id) === tag ? 'tag__link--active' : '')
+            span.tag__text= tagg._id
+              span.tag__count(style="margin-left:5px;")= tagg.count
+    p Found #{storeCount} Stores with '#{tag || 'all tags'}' Tag.`
+    .stores
+      each store in stores
+        +storeCard(store)
