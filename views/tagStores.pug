@@ -11,7 +11,7 @@ block content
           a(href=`/tags/${tagg._id}` class=(tagg._id) === tag ? 'tag__link--active' : '')
             span.tag__text= tagg._id
               span.tag__count(style="margin-left:5px;")= tagg.count
-    p Found #{storeCount} Stores with '#{tag || 'all tags'}' Tag.`
+    p Found #{storeCount} Stores with '#{tag || 'all tags'}' tag
     .stores
       each store in stores
         +storeCard(store)
