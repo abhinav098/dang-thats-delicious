@@ -1,16 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const storeController = require('../controllers/storeController');
+const userController = require('../controllers/userController');
+const authController = require('../controllers/authController');
 
 //catch error on global error handler
 const { catchErrors } = require('../handlers/errorHandlers');
 
 router.get('/', catchErrors(storeController.getStores));
 router.get('/stores', catchErrors(storeController.getStores));
-router.get('/stores/:id/edit', catchErrors(storeController.editStore));
+router.get('/stores/:id/edit', authController.isLoggedIn, catchErrors(storeController.editStore));
 router.get('/store/:slug', catchErrors(storeController.getStoreBySlug));
 
-router.get('/add', storeController.addStore);
+router.get('/add', authController.isLoggedIn, storeController.addStore);
 router.post('/add',
   storeController.upload,
   catchErrors(storeController.resize),
@@ -24,5 +26,19 @@ router.post('/add/:id',
 
 router.get('/tags', catchErrors(storeController.getStoreByTag));
 router.get('/tags/:tag', catchErrors(storeController.getStoreByTag));
+
+// user Auth
+router.get('/login', userController.login);
+router.post('/login', authController.login);
+router.get('/logout', authController.logout);
+router.get('/register', userController.signup);
+router.post('/register',
+  userController.validateRegister,
+  userController.register,
+  authController.login
+  );
+
+router.get('/account', authController.isLoggedIn, userController.account);
+router.post('/account', catchErrors(userController.updateAccount));
 
 module.exports = router;
