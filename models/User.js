@@ -21,7 +21,9 @@ const userSchema = new mongoose.Schema({
     validate: [validator.isEmail, 'Invalid Email Address!!'] },
   slug: {
     type: String, trim: true
-  }
+  },
+  resetPasswordToken: String,
+  resetPasswordExpires: Date
 });
 
 userSchema.virtual('gravatar').get(function(){
