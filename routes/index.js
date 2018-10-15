@@ -27,8 +27,13 @@ router.post('/add/:id',
 router.get('/tags', catchErrors(storeController.getStoreByTag));
 router.get('/tags/:tag', catchErrors(storeController.getStoreByTag));
 
+// user Auth
 router.get('/login', userController.login);
 router.get('/register', userController.signup);
-router.post('/register', userController.validateRegister, userController.register, authController.login);
+router.post('/register',
+  userController.validateRegister,
+  userController.register,
+  authController.login
+  );
 
 module.exports = router;
