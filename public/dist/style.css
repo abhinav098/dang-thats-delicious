@@ -846,16 +846,16 @@ label {
     border-left: 3px solid rgba(0, 0, 0, 0.1);
     margin-right: -1px;
     /* ugh */
-    background-clip: padding-box;}
-    .tag__count--active{
-      background: white;
-      padding: 1rem 1rem;
-      margin-left:10px;
-      border-left: 3px solid black;
-      border-right: 3px solid black;
-      margin-right: -1px;
-      color:black;
-    }
+    background-clip: padding-box;
+  }
+  .tag__count--active{
+    background: white;
+    padding: 1rem 1rem;
+    margin-left:10px;
+    border-left: 3px solid black;
+    border-right: 3px solid black;
+    margin-right: -1px;
+    color:black;
   }
 
 .single__hero {
