@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  .inner
+    pre= h.dump(params)
+    form.form(action=`/account` method="POST")
+      h2= title
+      label(for="name") Name
+      input(name="name" type= "text" placeholder='Name' value= user.name)
+      label(for="email") Email
+      input(name="email" type= "text" placeholder='Email' value= user.email)
+      input(type="submit" value="Update Account" class="button")
+
