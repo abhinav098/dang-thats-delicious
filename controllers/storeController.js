@@ -42,6 +42,7 @@ exports.resize = async (req, res, next) => {
 
 
 exports.createStore = async (req, res) => {
+  req.body.author = req.user._id;
   const store = await(new Store(req.body)).save();
   req.flash('success', `${store.name} created successfully.`)
   res.redirect(`/store/${store.slug}`);
@@ -53,12 +54,19 @@ exports.getStores = async (req, res) => {
 };
 
 exports.getStoreBySlug = async(req, res, next) => {
-  const store = await Store.findOne({slug: req.params.slug});
+  const store = await Store.findOne({slug: req.params.slug}).populate('author');
   res.render('storeShow', {title: `${store.name}`, store})
+};
+
+const confirmOwner = (store, user) => {
+  if(!store.author.equals(user._id)){
+    throw Error('Sorry! You are not authorized, as you are not the store owner.')
+  }
 };
 
 exports.editStore = async (req, res) => {
   const store = await Store.findOne({_id: req.params.id}); //1 find the store
+  confirmOwner(store, req.user);
   // 2 confirm owner of store, TODO
   res.render('editStore', {title: `Edit ${store.name}`, store}) // 3 render out the edit form
 };
