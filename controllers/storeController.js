@@ -96,3 +96,41 @@ exports.getStoreByTag = async (req,res) => {
   const storeCount = stores.length;
   res.render('tagStores', {title: 'Tags', tags, stores, tag, storeCount});
 }
+
+// search based on text, in mongoDB using the indexes
+// defined in Store model, also sort them according to the
+// textscore they get i.e => how close to the query the title and description are.
+exports.searchStores = async (req,res) => {
+  const stores = await Store.find({
+    $text: {
+      $search: req.query.q
+    }
+  }, {
+    score: { $meta: 'textScore'}
+  }).sort({
+    score: { $meta: 'textScore'}
+  }).limit(5);
+  // limit to 5
+  // send response to api endpoint.
+  res.json(stores);
+}
+
+exports.mapStores = async (req,res) => {
+  const cordinates = [req.query.lng, req.query.lat].map(parseFloat);
+  const q = {
+    location :{
+      $near: {
+        $geometry: {type: `Point`, cordinates},
+        $maxDistance: 10000
+      }
+    }
+  };
+  const stores = await Store.find(q).select('slug description location photo name').limit(10);
+  // send response to api endpoint.
+  res.json(stores);
+}
+
+exports.mapPage = async (req,res) => {
+  res.render('mapPage', {title: 'Maps'});
+}
+
