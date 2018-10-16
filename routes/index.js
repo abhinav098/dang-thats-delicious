@@ -7,11 +7,13 @@ const authController = require('../controllers/authController');
 //catch error on global error handler
 const { catchErrors } = require('../handlers/errorHandlers');
 
+// get stores, edit page, show page etc
 router.get('/', catchErrors(storeController.getStores));
 router.get('/stores', catchErrors(storeController.getStores));
 router.get('/stores/:id/edit', authController.isLoggedIn, catchErrors(storeController.editStore));
 router.get('/store/:slug', catchErrors(storeController.getStoreBySlug));
 
+// add/update stores
 router.get('/add', authController.isLoggedIn, storeController.addStore);
 router.post('/add',
   storeController.upload,
@@ -24,6 +26,7 @@ router.post('/add/:id',
   catchErrors(storeController.updateStore)
 );
 
+// get tags and stores by tags
 router.get('/tags', catchErrors(storeController.getStoreByTag));
 router.get('/tags/:tag', catchErrors(storeController.getStoreByTag));
 
@@ -38,7 +41,15 @@ router.post('/register',
   authController.login
   );
 
+// update account details
 router.get('/account', authController.isLoggedIn, userController.account);
 router.post('/account', catchErrors(userController.updateAccount));
+
+//reset account password
+router.post('/account/forgot', catchErrors(authController.forgot));
+router.get('/account/reset/:token', catchErrors(authController.reset));
+router.post('/account/reset/:token', authController.confirmedPasswords,
+  catchErrors(authController.resetPassword)
+);
 
 module.exports = router;
