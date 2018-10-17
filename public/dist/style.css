@@ -820,7 +820,7 @@ label {
         padding: 1rem 1rem 1rem 4rem; }
       .tag__choice input:checked + label {
         background: #FFC40E; }
-  .tag__link .tag__text {
+  .tag__link .tag_text{
     background: #FFC40E;
     color: #303030;
     display: -ms-flexbox;
@@ -832,7 +832,8 @@ label {
       background: #827cd2;
       -webkit-clip-path: polygon(10px 0%, 100% 1%, 100% 100%, 10px 100%, 0% 50%);
         clip-path: polygon(10px 0%, 100% 1%, 100% 100%, 10px 100%, 0% 50%);
-      color: white;}
+      color: white;
+    }
   .tag__text {
     background: #FFC40E;
     color: #303030;
@@ -844,8 +845,8 @@ label {
     padding: 1rem 1rem;
     background: white;
     border-left: 3px solid rgba(0, 0, 0, 0.1);
-    margin-left: 10px;
     margin-right: -1px;
+    margin-left: 10px;
     /* ugh */
     background-clip: padding-box; }
   .tag__count--active{
@@ -857,7 +858,6 @@ label {
     border-right: 3px solid black;
     margin-right: -1px;
   }
-
 .single__hero {
   height: 500px;
   position: relative;
