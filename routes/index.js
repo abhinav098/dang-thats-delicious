@@ -52,9 +52,10 @@ router.post('/account/reset/:token', authController.confirmedPasswords,
   catchErrors(authController.resetPassword)
 );
 router.get('/map', storeController.mapPage)
-
+router.get('/hearts', authController.isLoggedIn, catchErrors(storeController.getHeartedStores))
 // API EndPoints
 router.get('/api/v1/search',catchErrors(storeController.searchStores));
 router.get('/api/v1/stores/near',catchErrors(storeController.mapStores));
+router.post('/api/v1/stores/:id/heart', catchErrors(storeController.heartStore))
 
 module.exports = router;
