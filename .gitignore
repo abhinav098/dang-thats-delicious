@@ -1,4 +1,9 @@
-/public/uploads
-/node_modules
-/variables.env
-/public/dist
+node_modules
+.DS_Store
+*.log
+.idea
+haters/
+variables.env
+variables.env.now
+
+public/uploads
