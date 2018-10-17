@@ -120,8 +120,8 @@ exports.mapStores = async (req,res) => {
   const q = {
     location :{
       $near: {
-        $geometry: {type: `Point`, coordinates}
-        // $maxDistance: 10000
+        $geometry: {type: `Point`, coordinates},
+        $maxDistance: 10000
       }
     }
   };
