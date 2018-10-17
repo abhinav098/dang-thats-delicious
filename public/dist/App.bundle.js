@@ -2728,33 +2728,46 @@ var _bling = __webpack_require__(1);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapOptions = {
-  center: { lat: 43.2, lng: -79.8 },
-  zoom: 10
+  center: { lat: 19.109, lng: 72.884 },
+  zoom: 15
 };
-
 function loadPlaces(map) {
-  var lat = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 43.2;
-  var lng = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : -79.8;
+  var lat = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 19.109;
+  var lng = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 72.884;
 
   _axios2.default.get('/api/v1/stores/near?lat=' + lat + '&lng=' + lng).then(function (res) {
-    debugger;
     var places = res.data;
     if (!places) {
       alert('No Places Found');
       return;
     }
+
+    // create bounds
+    var bounds = new google.maps.LatLngBounds();
+    var infoWindow = new google.maps.InfoWindow();
+
     var markers = places.map(function (place) {
       var _place$location$coord = _slicedToArray(place.location.coordinates, 2),
           placeLng = _place$location$coord[0],
           placeLat = _place$location$coord[1];
 
-      debugger;
       var position = { lat: placeLat, lng: placeLng };
-      debugger;
+      bounds.extend(position);
       var marker = new google.maps.Marker({ map: map, position: position });
       marker.place = place;
       return marker;
     });
+
+    markers.forEach(function (marker) {
+      return marker.addListener('click', function () {
+        var html = '<div class = "popup">\n              <a href="/store/' + this.place.slug + '">\n                <img src = "/uploads/' + (this.place.photo || 'store.png') + '" alt="' + this.place.name + '" />\n                <p>' + this.place.name + ' - ' + this.place.location.address + '</p>\n              </a>\n             </div>';
+        infoWindow.setContent(html);
+        infoWindow.open(map, this);
+      });
+    });
+    // zoom map to fit markers perfectly
+    map.setCenter(bounds.getCenter());
+    map.fitBounds(bounds);
   });
 };
 
@@ -2766,6 +2779,11 @@ function makeMap(mapDiv) {
 
   var input = (0, _bling.$)("[name='geolocate']");
   var autoComplete = new google.maps.places.Autocomplete(input);
+
+  autoComplete.addListener('place_changed', function () {
+    var place = autoComplete.getPlace();
+    loadPlaces(map, place.geometry.location.lat(), place.geometry.location.lng());
+  });
 };
 
 exports.default = makeMap;
