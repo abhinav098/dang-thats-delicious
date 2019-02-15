@@ -1,4 +1,4 @@
-const passport = require("passport");
+const passport = require('passport');
 const crypto = require('crypto');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
